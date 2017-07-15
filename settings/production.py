@@ -9,7 +9,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': f'{settings.PROJECT_ROOT}/../logs/app.log',
+            'filename': f'{settings.PROJECT_ROOT}/../logs/giffy_bot.log',
         },
     },
     'loggers': {
