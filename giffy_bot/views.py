@@ -1,15 +1,23 @@
 # coding: utf-8
+import logging
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from .tasks import handle_message
 
 
-class HelloWorld(APIView):
+class RouterView(APIView):
+    """
+    Accepts the incoming http requests, launches appropriate Celery task and replies to questioner server immediately
+    """
 
-    def get(self, request, **kwargs):
-        return Response({'res': 'hello world'})
+    http_method_names = ['post']
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.logger = logging.getLogger(__name__)
 
-class GiffyBot(APIView):
-
-    def get(self, request, **kwargs):
-        return ''
+    def post(self, request, *args, **kwargs):
+        self.logger.info(request.data)
+        handle_message.apply_async([request.data])
+        return Response({'status': 'ok'})
