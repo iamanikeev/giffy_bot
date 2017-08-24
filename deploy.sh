@@ -12,6 +12,10 @@ function collectstatic {
     ssh ${USER}@${REMOTE_HOST} -C "source ${VENV}/bin/activate;cd ${REMOTE_DIR};./manage.py collectstatic -v0 --noinput"
 }
 
+function update_dependencies {
+    ssh ${USER}@${REMOTE_HOST} -C "source ${VENV}/bin/activate;cd ${REMOTE_DIR};pip install -r requirements.txt"
+}
+
 function run_rsync {
     rsync -uvrz \
       --delete \
@@ -25,10 +29,12 @@ function run_rsync {
 
 if [ ${SSH_KEY} ]; then
     run_rsync -e "ssh -i ${SSH_KEY}"
+    update_dependencies -i ${SSH_KEY}
     uwsgi_reload -i ${SSH_KEY}
     collectstatic -i ${SSH_KEY}
 else
     run_rsync
+    update_dependencies
     uwsgi_reload
     collectstatic
 fi

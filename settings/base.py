@@ -17,7 +17,7 @@ import environ
 
 PROJECT_ROOT = Path(__file__).parent.parent.absolute()
 
-root = environ.Path(__file__) - 2  # three folder back (/a/b/c/ - 3 = /)
+root = environ.Path(__file__) - 2  # two folder back (/a/b/ - 3 = /)
 env = environ.Env(DEBUG=(bool, False), )  # set default values and casting
 environ.Env.read_env(f'{PROJECT_ROOT}/../.env_giffy_bot')  # reading .env file
 
