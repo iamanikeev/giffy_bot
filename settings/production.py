@@ -14,7 +14,7 @@ LOGGING = {
         'default': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': f'{settings.PROJECT_ROOT}/../logs/giffy_bot.log',
+            'filename': '{}/../logs/bot.log'.format(settings.PROJECT_ROOT),
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 5,
             'formatter': 'standard',
@@ -22,7 +22,7 @@ LOGGING = {
         'request_handler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': f'{settings.PROJECT_ROOT}/../logs/giffy_bot.log',
+            'filename': '{}/../logs/bot.log'.format(settings.PROJECT_ROOT),
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 5,
             'formatter': 'standard',

@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-/_files/
 .idea/
+logs/
 .env
+.bot_env
 db.sqlite3

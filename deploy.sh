@@ -5,11 +5,7 @@
 source ./.env
 
 function uwsgi_reload {
-    ssh ${USER}@${REMOTE_HOST} -C "touch --no-dereference  ${UWSGI_CONFIG}"
-}
-
-function collectstatic {
-    ssh ${USER}@${REMOTE_HOST} -C "source ${VENV}/bin/activate;cd ${REMOTE_DIR};./manage.py collectstatic -v0 --noinput"
+    ssh ${USER}@${REMOTE_HOST} -C "touch --no-dereference  ${UWSGI_RELOADER}"
 }
 
 function update_dependencies {
@@ -29,13 +25,8 @@ function run_rsync {
 
 if [ ${SSH_KEY} ]; then
     run_rsync -e "ssh -i ${SSH_KEY}"
-    update_dependencies -i ${SSH_KEY}
-    uwsgi_reload -i ${SSH_KEY}
-    collectstatic -i ${SSH_KEY}
+    uwsgi_reload
 else
     run_rsync
-    update_dependencies
-    uwsgi_reload
-    collectstatic
 fi
 

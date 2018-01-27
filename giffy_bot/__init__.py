@@ -5,9 +5,5 @@ from __future__ import absolute_import, unicode_literals
 import telepot
 from django.conf import settings
 
-from .celery import app as celery_app
-
 # Load bot instance once during the app initialization
 bot = telepot.Bot(settings.BOT_TOKEN)
-
-__all__ = ['celery_app', 'bot']

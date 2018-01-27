@@ -1,6 +1,7 @@
 # coding: utf-8
+import re
 
-SUPPORTED_COMMANDS = ['help', 'register', 'save', 'post']
+SUPPORTED_COMMANDS = ['help', 'pidoreg', 'pidorstats', 'pidor']
 
 
 class MessageSerializer:
@@ -17,7 +18,10 @@ class MessageSerializer:
 
     @property
     def text(self):
-        return self.message['text']
+        try:
+            return self.message['text']
+        except KeyError:
+            return None
 
     @property
     def from_id(self):
@@ -28,9 +32,12 @@ class MessageSerializer:
         return self.message['from']['first_name']
 
     @property
-    def is_command(self):
-        return self.text.startswith('/') and self.text.strip('/') in SUPPORTED_COMMANDS
-
-    @property
     def command(self):
-        return self.text.strip('/')
+        text = self.text
+        if text:
+            expr = '/({})(?:^@pidor2bot$)?'.format('|'.join(SUPPORTED_COMMANDS))
+            try:
+                return re.match(expr, text).group(1)
+            except IndexError:
+                pass
+        return None
